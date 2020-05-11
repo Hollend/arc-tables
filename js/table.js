@@ -100,6 +100,7 @@ class table {
 	  let line = this.data[i];
 	  if (this.isEmptyOrSpaces(line)) break;
 	  let name = line.match(/.*\[.*\]{1}/).toString();
+	  if (name == "Gdin") name = "gdin";
 	  name = name.substr(0, name.length - 5);
 	  line = line.trimRight();
 	  line = line.split(' ');
