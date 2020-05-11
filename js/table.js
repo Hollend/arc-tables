@@ -100,8 +100,8 @@ class table {
 	  let line = this.data[i];
 	  if (this.isEmptyOrSpaces(line)) break;
 	  let name = line.match(/.*\[.*\]{1}/).toString();
-	  if (name == "Gdin") name = "gdin";
 	  name = name.substr(0, name.length - 5);
+	  if (name == "Gdin") name = "gdin";
 	  line = line.trimRight();
 	  line = line.split(' ');
 	  let country = line[line.length - 2];
