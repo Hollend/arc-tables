@@ -7,12 +7,12 @@ export default class textFactory {
 	this.style = style;
   }
 
-  getText(content, x_pos, y_pos) {
+  getText(content, x_pos, y_pos, color = "#ffffff") {
 	var text = new createjs.Text();
 	text.set({
 	  text: content,
 	  font: this.style + " " + this.size + "px " + this.font,
-	  color: "#ffffff",
+	  color: color,
 	  textAlign: "center",
 	  textBaseLine: "middle",
 	  x: x_pos,

@@ -13,16 +13,37 @@ class table {
   constructor(style, data, track) {
 	this.stage = new createjs.Stage("table");
 	this.data = data;
+	this.style = style;
 	this.clans = [];
 	this.pl = [];
 	this.pl2 = [];
+	this.styles = {
+	  "terra": {
+		"textC": "#ffffff",
+		"bgC": "#065861"
+	  },
+	  "sky": {
+		"textC": "#ffffff",
+		"bgC": "#065861"
+	  },
+	  "arc": {
+		"textC": "#ffffff",
+		"bgC": "#065861"
+	  },
+	  "mku": {
+		"textC1": "#007f86",
+		"textC2": "#cd4e00",
+		"bgC": "#090909"
+	  }
+	}
 	//Draw background
 	var bg = new createjs.Shape();
-	bg.graphics.beginFill("#065861").drawRect(0, 0, 850, 480);
+	bg.graphics.beginFill(this.styles[this.style].bgC).drawRect(0, 0, 850, 480);
 	this.stage.addChild(bg);
 	//Add track image, ARC logo, and middle divider
 	let i = new imageFactory(this.stage);
 	if (!track) track = "dAC";
+	if (this.style == "mku") track = "mku_bg";
 	i.loadImage("static/images/tracks/" + track + ".png", 850, 480, 0, 0, 1);
 	this.drawARCLogo(this.stage, style);
 	var mid = new createjs.Shape();
@@ -67,8 +88,8 @@ class table {
 	}
 	//Draw clan tags
 	try {
-	  this.drawClanTag(this.clans[0]["tag"], this.clans[0]["name"], this.stage, true);
-	  this.drawClanTag(this.clans[1]["tag"], this.clans[1]["name"], this.stage, false);
+	  this.drawClanTag(this.clans[0]["tag"], this.clans[0]["name"], this.stage, true, this.styles[this.style].textC1);
+	  this.drawClanTag(this.clans[1]["tag"], this.clans[1]["name"], this.stage, false, this.styles[this.style].textC2);
 	  this.drawPlayerInfo(this.pl, 0);
 	  this.drawPlayerInfo(this.pl2, 240);
 	  this.drawScores();
@@ -146,19 +167,22 @@ class table {
   }
 
   //Draw clan tags
-  drawClanTag(tag, name, stage, win) {
+  drawClanTag(tag, name, stage, win, color) {
 	//place on top or bottom for win or loss
+	if (!this.style == "mku") {
+	  color = "#000000";
+	}
 	let y_pos;
 	win ? y_pos = 55 : y_pos = 312;
 	//draw clan tag
 	let t = new textFactory("Tahoma", 96, "bold");
 	let tagText = t.getText(tag, 155, y_pos);
-	tagText.shadow = new createjs.Shadow("#000000", 2, 2, 2);
+	tagText.shadow = new createjs.Shadow(color, 2, 2, 2);
 	stage.addChild(tagText);
 	//draw clan name
 	t = new textFactory("Oswald", 22, "");
 	let nameText = t.getText(name, 155, y_pos + 98);
-	nameText.shadow = new createjs.Shadow("#000000", 2, 2, 2);
+	nameText.shadow = new createjs.Shadow(color, 2, 2, 2);
 	stage.addChild(nameText);
 	stage.update();
   }
@@ -187,17 +211,25 @@ class table {
   }
 
   drawScores() {
+	let color = "#000000";
+	if (this.style == "mku") color = this.styles[this.style].textC1;
 	let t = new textFactory("Tahoma", 96, "bold");
     let clan1 = t.getText(this.clans[0]["score"], 850 - 155, 55 + 28);
-	clan1.shadow = new createjs.Shadow("#000000", 2, 2, 2);
+	clan1.shadow = new createjs.Shadow(color, 2, 2, 2);
 	this.stage.addChild(clan1);
+	if (this.style == "mku") color = this.styles[this.style].textC2;
 	let clan2 = t.getText(this.clans[1]["score"], 850 - 155, 312);
-	clan2.shadow = new createjs.Shadow("#000000", 2, 2, 2);
+	clan2.shadow = new createjs.Shadow(color, 2, 2, 2);
 	this.stage.addChild(clan2);
 	t = new textFactory("Oswald", 22, "");
 	let diff_num = this.clans[0]["score"] - this.clans[1]["score"];
 	let diff = t.getText("±" + diff_num, 850 - 155, 240 - 9);
-	diff.shadow = new createjs.Shadow("#000000", 2, 2, 2);
+	let spread = 2;
+	if (this.style == "mku") {
+	  color = "#dddddd";
+	  spread = 1;
+	}
+	diff.shadow = new createjs.Shadow(color, spread, spread, spread);
 	this.stage.addChild(diff);
 	t = new textFactory("Oswald", 18, "");
 	if (this.clans[0]["penalty"] < 0) {
@@ -231,9 +263,16 @@ class table {
 	case "terra":
 	  filename = "arcterra_web.png"
 	  break;
+	case "mku":
+	  filename = "mku_web.png"
+	  break;
 	}
 	let i = new imageFactory(stage);
-	i.loadImage("static/images/" + filename, 0, 0, 117, 210);
+	if (style == "mku") {
+	  i.loadImage("static/images/" + filename, 0, 0, 110, 198);
+	} else {
+	  i.loadImage("static/images/" + filename, 0, 0, 117, 210);
+	}
   }
 }
 
