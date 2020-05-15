@@ -227,7 +227,7 @@ class table {
 	let spread = 2;
 	if (this.style == "mku") {
 	  color = "#dddddd";
-	  spread = 1;
+	  spread = 0;
 	}
 	diff.shadow = new createjs.Shadow(color, spread, spread, spread);
 	this.stage.addChild(diff);
