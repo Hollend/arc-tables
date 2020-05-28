@@ -30,7 +30,7 @@ class table {
 		"textC": "#ffffff",
 		"bgC": "#065861"
 	  },
-	  "mku": {
+	 "mku": {
 		"textC1": "#007f86",
 		"textC2": "#cd4e00",
 		"bgC": "#090909"
