@@ -20,6 +20,20 @@ export default class textFactory {
 	});
 	return text;
   }
+
+  getTextLeft(content, x_pos, y_pos, color = "#ffffff") {
+	var text = new createjs.Text();
+	text.set({
+	  text: content,
+	  font: this.style + " " + this.size + "px " + this.font,
+	  color: color,
+	  textAlign: "right",
+	  textBaseLine: "middle",
+	  x: x_pos,
+	  y: y_pos
+	});
+	return text;
+  }
 }
 
 export class imageFactory {

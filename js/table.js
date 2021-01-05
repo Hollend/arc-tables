@@ -86,6 +86,10 @@ class table {
 		k--;
 	  }
 	}
+
+    //Draw Dtae
+    this.drawDate();
+
 	//Draw clan tags
 	try {
 	  this.drawClanTag(this.clans[0]["tag"], this.clans[0]["name"], this.stage, true, this.styles[this.style].textC1);
@@ -208,6 +212,19 @@ class table {
 	  y_pos += 30;
 	}
 	this.stage.update();
+  }
+
+  drawDate() {
+      let t = new textFactory("Oswald", 20, "");
+      var today = new Date(),
+          day = today.getDate(),
+          months = new Array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'),
+          month = months[today.getMonth()],
+          year = today.getFullYear();
+      let d = t.getTextLeft(day + " " + month + " " + year, 838, 14);
+      d.shadow = new createjs.Shadow("#000000", 2, 2, 2);
+      this.stage.addChild(d);
+      this.stage.update();
   }
 
   drawScores() {
